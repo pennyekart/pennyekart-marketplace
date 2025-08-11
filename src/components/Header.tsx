@@ -1,6 +1,13 @@
-import { Search, ShoppingCart, User, Heart, Menu } from "lucide-react";
+import { Search, ShoppingCart, User, Heart, Menu, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 const Header = () => {
   return (
@@ -44,6 +51,149 @@ const Header = () => {
               </span>
             </Button>
           </div>
+        </div>
+
+        {/* Categories Navigation */}
+        <div className="hidden md:block border-t border-border">
+          <NavigationMenu className="mx-0 max-w-full">
+            <NavigationMenuList className="flex items-center space-x-6 h-12 px-0">
+              <NavigationMenuItem>
+                <Button variant="ghost" size="sm" className="text-sm font-medium">
+                  Minutes
+                </Button>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <Button variant="ghost" size="sm" className="text-sm font-medium">
+                  Mobiles & Tablets
+                </Button>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="text-sm font-medium h-auto p-2">
+                  Fashion
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <div className="grid gap-3 p-6 w-[400px]">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h3 className="font-medium mb-2">Men</h3>
+                        <ul className="space-y-1 text-sm">
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">T-Shirts</a></li>
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Shirts</a></li>
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Jeans</a></li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-2">Women</h3>
+                        <ul className="space-y-1 text-sm">
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Dresses</a></li>
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Tops</a></li>
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Sarees</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="text-sm font-medium h-auto p-2">
+                  Electronics
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <div className="grid gap-3 p-6 w-[400px]">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h3 className="font-medium mb-2">Audio</h3>
+                        <ul className="space-y-1 text-sm">
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Headphones</a></li>
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Speakers</a></li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-2">Computing</h3>
+                        <ul className="space-y-1 text-sm">
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Laptops</a></li>
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Accessories</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="text-sm font-medium h-auto p-2">
+                  Home & Furniture
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <div className="grid gap-3 p-6 w-[400px]">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h3 className="font-medium mb-2">Furniture</h3>
+                        <ul className="space-y-1 text-sm">
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Sofas</a></li>
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Chairs</a></li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-2">Decor</h3>
+                        <ul className="space-y-1 text-sm">
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Lighting</a></li>
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Wall Art</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <Button variant="ghost" size="sm" className="text-sm font-medium">
+                  TVs & Appliances
+                </Button>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <Button variant="ghost" size="sm" className="text-sm font-medium">
+                  Flight Bookings
+                </Button>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="text-sm font-medium h-auto p-2">
+                  Beauty, Food..
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <div className="grid gap-3 p-6 w-[400px]">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h3 className="font-medium mb-2">Beauty</h3>
+                        <ul className="space-y-1 text-sm">
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Skincare</a></li>
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Makeup</a></li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-2">Food</h3>
+                        <ul className="space-y-1 text-sm">
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Snacks</a></li>
+                          <li><a href="#" className="text-muted-foreground hover:text-foreground">Beverages</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <Button variant="ghost" size="sm" className="text-sm font-medium">
+                  Grocery
+                </Button>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
 
         {/* Mobile Search */}
