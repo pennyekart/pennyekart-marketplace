@@ -1,4 +1,4 @@
-import { Search, ShoppingCart, User, Heart, Menu, ChevronDown } from "lucide-react";
+import { Search, ShoppingCart, User, Heart, Menu, ChevronDown, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -8,8 +8,19 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card shadow-sm">
       <div className="container mx-auto px-4">
@@ -35,10 +46,41 @@ const Header = () => {
 
           {/* Navigation Items */}
           <div className="flex items-center space-x-1">
-            <Button variant="ghost" size="sm" className="hidden md:flex items-center space-x-1">
-              <User className="h-4 w-4" />
-              <span>Login</span>
-            </Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="hidden md:flex items-center space-x-1">
+                    <User className="h-4 w-4" />
+                    <span>{user.user_metadata?.full_name || user.email}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => navigate('/profile')}>
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/orders')}>
+                    <ShoppingCart className="mr-2 h-4 w-4" />
+                    Orders
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="hidden md:flex items-center space-x-1"
+                onClick={() => navigate('/auth')}
+              >
+                <User className="h-4 w-4" />
+                <span>Login</span>
+              </Button>
+            )}
             
             <Button variant="ghost" size="icon" className="relative">
               <Heart className="h-5 w-5" />
