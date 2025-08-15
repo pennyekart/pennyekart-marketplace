@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Search, Plus, Edit, Trash2 } from 'lucide-react';
@@ -31,6 +32,7 @@ export default function AdminCategories() {
     name: '',
     description: '',
     image_url: '',
+    parent_id: '',
   });
   const { toast } = useToast();
 
@@ -63,10 +65,15 @@ export default function AdminCategories() {
     e.preventDefault();
     
     try {
+      const submitData = {
+        ...formData,
+        parent_id: formData.parent_id || null,
+      };
+
       if (editingCategory) {
         const { error } = await supabase
           .from('categories')
-          .update(formData)
+          .update(submitData)
           .eq('id', editingCategory.id);
 
         if (error) throw error;
@@ -78,7 +85,7 @@ export default function AdminCategories() {
       } else {
         const { error } = await supabase
           .from('categories')
-          .insert([formData]);
+          .insert([submitData]);
 
         if (error) throw error;
         
@@ -90,7 +97,7 @@ export default function AdminCategories() {
 
       setIsDialogOpen(false);
       setEditingCategory(null);
-      setFormData({ name: '', description: '', image_url: '' });
+      setFormData({ name: '', description: '', image_url: '', parent_id: '' });
       fetchCategories();
     } catch (error) {
       console.error('Error saving category:', error);
@@ -108,6 +115,7 @@ export default function AdminCategories() {
       name: category.name,
       description: category.description || '',
       image_url: category.image_url || '',
+      parent_id: category.parent_id || '',
     });
     setIsDialogOpen(true);
   };
@@ -152,7 +160,7 @@ export default function AdminCategories() {
               <DialogTrigger asChild>
                 <Button onClick={() => {
                   setEditingCategory(null);
-                  setFormData({ name: '', description: '', image_url: '' });
+                  setFormData({ name: '', description: '', image_url: '', parent_id: '' });
                 }}>
                   <Plus className="h-4 w-4 mr-2" />
                   Add Category
@@ -181,6 +189,27 @@ export default function AdminCategories() {
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     />
+                  </div>
+                  <div>
+                    <Label htmlFor="parent_id">Parent Category</Label>
+                    <Select 
+                      value={formData.parent_id} 
+                      onValueChange={(value) => setFormData({ ...formData, parent_id: value })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select parent category (optional)" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">None (Root Category)</SelectItem>
+                        {categories
+                          .filter(cat => cat.id !== editingCategory?.id)
+                          .map((category) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div>
                     <Label htmlFor="image_url">Image URL</Label>
@@ -229,6 +258,7 @@ export default function AdminCategories() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
+                  <TableHead>Parent Category</TableHead>
                   <TableHead>Description</TableHead>
                   <TableHead>Image</TableHead>
                   <TableHead>Created</TableHead>
@@ -240,6 +270,12 @@ export default function AdminCategories() {
                   <TableRow key={category.id}>
                     <TableCell className="font-medium">
                       {category.name}
+                    </TableCell>
+                    <TableCell>
+                      {category.parent_id ? 
+                        categories.find(cat => cat.id === category.parent_id)?.name || 'Unknown' 
+                        : 'Root Category'
+                      }
                     </TableCell>
                     <TableCell>
                       {category.description || 'No description'}
